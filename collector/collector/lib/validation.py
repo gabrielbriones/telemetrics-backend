@@ -42,11 +42,15 @@ REQUIRED_HEADERS_V3 = REQUIRED_HEADERS_V2 + (
     'Cpu-Model',
 )
 
+REQUIRED_HEADERS_V4 = REQUIRED_HEADERS_V3 + (
+    'Ppin',
+)
+
 # see config.py for the meaning of this value
 TELEMETRY_ID = app.config.get("TELEMETRY_ID", "6907c830-eed9-4ce9-81ae-76daf8d88f0f")
 
 SEVERITY_VALUES = [1, 2, 3, 4]
-VALID_RECORD_FORMAT_VERSIONS = [1, 2, 3]
+VALID_RECORD_FORMAT_VERSIONS = [1, 2, 3, 4]
 POSTGRES_INT_MAX = 2147483647
 MAXLEN_PRINTABLE = 200
 
@@ -182,6 +186,7 @@ def validate_header(name, value, expected=None):
             'cpu_model': validate_x_header,
             'bios_version': validate_x_header,
             'build': validate_x_header,
+            'ppin': validate_x_header,
         }.get(name, lambda x: False)(value)
     else:
         return value == expected

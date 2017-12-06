@@ -55,6 +55,7 @@ def get_insert_params(days_old, severity, classification):
         record["board_name"],
         record["bios_version"],
         record["cpu_model"],
+        "blank",
         False,
         "Test"
     ]

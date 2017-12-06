@@ -24,7 +24,7 @@
 <dl class="dl-horizontal">
     <dt>Record Id</dt>
     <dd>{{ record.id }}</dd>
-    
+
     <dt>Machine Id</dt>
     <dd><a  href="{{ url_for('records', page=1, machine_id=record.machine_id) }}">{{  record.machine_id }}</a></dd>
 
@@ -49,10 +49,20 @@
     <dt>CPU Model</dt>
     <dd>{{ record.cpu_model if record.cpu_model else 'N/A'}}</dd>
 
+    <dt>PPIN</dt>
+    {% if record.ppin != 'blank' %}
+        {% set ppin_list = record.ppin.split('|') %}
+        {% for ppin in ppin_list %}
+            <dd>{{ ppin}}</dd>
+        {% endfor %}
+    {% else %}
+        <dd>N/A</dd>
+    {% endif %}
+
     <dt>Record Time</dt>
     <dd>{{ record.tsp|local_datetime_since }}</dd>
 
-    <dt>Server Time</dt> 
+    <dt>Server Time</dt>
     <dd>{{ record.tsp_server|local_datetime_since }} </dd>
 
     <dt>Build</dt>

@@ -126,6 +126,7 @@ class Record(db.Model):
     board_name = db.Column(db.String, default='')
     bios_version = db.Column(db.String, default='')
     cpu_model = db.Column(db.String, default='')
+    ppin = db.Column(db.String, default='')
 
     classification = db.relationship('Classification', backref=db.backref('records', lazy='dynamic'), lazy='joined')
     build = db.relationship('Build', backref=db.backref('records', lazy='dynamic'), lazy='joined')
@@ -133,7 +134,7 @@ class Record(db.Model):
 
     def __init__(self, machine_id, host_type, severity, classification, build, architecture, kernel_version,
                  record_format_version, ts_capture, ts_reception, payload_format_version, os_name,
-                 board_name, bios_version, cpu_model, external, payload):
+                 board_name, bios_version, cpu_model, ppin, external, payload):
         self.machine_id = machine_id
         self.machine = host_type
         self.architecture = architecture
@@ -151,6 +152,7 @@ class Record(db.Model):
         self.board_name = board_name
         self.bios_version = bios_version
         self.cpu_model = cpu_model
+        self.ppin = ppin
 
         try:
             self.payload = payload.encode('utf-8')
@@ -179,6 +181,7 @@ class Record(db.Model):
             'board_name': self.board_name,
             'bios_version': self.bios_version,
             'cpu_model': self.cpu_model,
+            'ppin': self.ppin,
         }
         return record
 
@@ -203,11 +206,11 @@ class Record(db.Model):
     @staticmethod
     def create(machine_id, host_type, severity, classification, build, architecture, kernel_version,
                record_format_version, ts_capture, ts_reception, payload_format_version, os_name,
-               board_name, bios_version, cpu_model, external, payload):
+               board_name, bios_version, cpu_model, ppin, external, payload):
         try:
             record = Record(machine_id, host_type, severity, classification, build, architecture, kernel_version,
                             record_format_version, ts_capture, ts_reception, payload_format_version, os_name,
-                            board_name, bios_version, cpu_model, external, payload)
+                            board_name, bios_version, cpu_model, ppin, external, payload)
             db.session.add(record)
             db.session.commit()
             return record
