@@ -50,7 +50,7 @@
     <dd>{{ record.cpu_model if record.cpu_model else 'N/A'}}</dd>
 
     <dt>PPIN</dt>
-    {% if record.ppin != 'blank' %}
+    {% if record.ppin and record.ppin != 'blank' and record.ppin != 'None' %}
         {% set ppin_list = record.ppin.split('|') %}
         {% for ppin in ppin_list %}
             <dd>{{ ppin}}</dd>
