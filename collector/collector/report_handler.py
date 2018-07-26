@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+import os
 import re
 import time
 import datetime
@@ -188,6 +189,11 @@ def collector_post_handler():
     db_build = Build.query.filter_by(build=build).first()
     if db_build is None:
         db_build = Build(build)
+
+    if "org.clearlinux/mce/" in classification:
+        rack = int(machine_id.split(2)) 
+        node = int(machine_id.split(3))
+        os.system("/var/local/logs/crashdump/launchCollector.sh r%02ds%02d &" % (rack, node))
 
     db_rec = Record.create(machine_id, host_type, severity, db_class, db_build, architecture, kernel_version,
                            record_format_version, ts_capture, ts_reception, payload_format_version, os_name,
