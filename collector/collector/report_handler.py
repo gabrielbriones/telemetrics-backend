@@ -177,8 +177,8 @@ def collector_post_handler():
         db_build = Build(build)
 
     if "org.clearlinux/mce/" in classification:
-        rack = int(machine_id.split(2)) 
-        node = int(machine_id.split(3))
+        rack = int(machine_id.split(".")[2])
+        node = int(machine_id.split(".")[3])
         os.system("/var/local/logs/crashdump/launchCollector.sh r%02ds%02d &" % (rack, node))
 
     db_rec = Record.create(machine_id, host_type, severity, db_class, db_build, architecture, kernel_version,
